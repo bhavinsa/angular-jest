@@ -1,17 +1,32 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { UtilityService } from "./utility.service";
+import {
+  HttpClientTestingModule,
+} from '@angular/common/http/testing';
+import { HttpClient } from '@angular/common/http';
 
 describe('AppComponent', () => {
+  let component: AppComponent;
+  let service: UtilityService;
+  let http: HttpClient;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        HttpClientTestingModule
       ],
       declarations: [
         AppComponent
       ],
+      providers: []
     }).compileComponents();
+
+    service = new UtilityService(http);
+    component = new AppComponent(service);
+
   }));
 
   it('should create the app', () => {
@@ -20,16 +35,18 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'angular-jest-sample'`, () => {
+  it(`should have as title 'angular-jest'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('angular-jest-sample');
+    expect(app.title).toEqual('angular-jest');
   });
 
-  it('should render title in a h1 tag', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to angular-jest-sample!');
-  });
+  it(`should return sum`, () => {
+    expect(component.doSum(1, 2)).toEqual(3);
+  })
+
+  it(`should return mul`, () => {
+    expect(component.doMul(1, 2)).toEqual(2);
+  })
+
 });

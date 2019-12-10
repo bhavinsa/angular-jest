@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "test:report": "jest --coverage --coverageDirectory=output/coverage/jest"
   },
   "private": true,
   "jest": {
@@ -27,7 +28,16 @@
         "astTransformers": [
           "<rootDir>/node_modules/jest-preset-angular/InlineHtmlStripStylesTransformer"
         ]
-      }
+      },
+      "reporters": [
+        "default",
+        [
+          "./node_modules/jest-html-reporter",
+          {
+            "pageTitle": "Test Report"
+          }
+        ]
+      ]
     }
   },
   "dependencies": {
@@ -48,6 +58,7 @@
     "@angular/cli": "~8.0.2",
     "@angular/compiler-cli": "~8.0.0",
     "@angular/language-service": "~8.0.0",
+    "@ngneat/spectator": "^4.9.0",
     "@types/jest": "^24.0.15",
     "@types/node": "~8.9.4",
     "codelyzer": "^5.0.0",
